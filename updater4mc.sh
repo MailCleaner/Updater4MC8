@@ -152,7 +152,8 @@ if [[ $SRCSTART != $SRCEND ]] || [[ $UPDATED == 1 ]]; then
     . "${rpath}/updates/tolaunch.always" $1
 fi
 
-echo $(echo $VERSION)-$(echo ${SRCEND} | cut -b-7) > ${SRCDIR}/etc/mailcleaner/version.def
+# Prepend version with 1. We'll be skipping 93-99 for convenience. All versions in Updater4MC8 legacy repository will be > 100.
+echo $(echo 1$VERSION)-$(echo ${SRCEND} | cut -b-7) > ${SRCDIR}/etc/mailcleaner/version.def
 
 echo
 echo "$(date +%F_%T) End of Updater4MC:"
