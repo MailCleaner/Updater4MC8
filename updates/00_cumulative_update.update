@@ -13,7 +13,7 @@ fi
 export PATH="${SRCDIR}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/mailcleaner/.pyenv/bin"
 
 # This update is a summation of all previous updates. For fresh installations, all of these steps will have been completed already. This script is necessary only for older installations which may have been behind on updates.
-BD=$(lsblk | head -n 2 | tail -n 1 | awk '{ print $1 }'))
+BD=$(lsblk | head -n 2 | tail -n 1 | awk '{ print $1 }')
 if [ -e ${BD}1 ]; then
     INSTALLATION_DATE=$(tune2fs -l ${BD}1 | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
 else
