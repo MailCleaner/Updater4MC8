@@ -239,8 +239,8 @@ else
     patch -i MS_hide_script2.patch Message.pm
     rm -f MS_hide_script2.patch
 fi
-if grep -q 'DisarmInsideHead' /opt/MailScanner/lib/MailScanner/Message.pm; then
-    echo "Disarming of tags in Head already disabled"
+if grep -q 'InitEsetsEFSParser' /opt/MailScanner/lib/MailScanner/Message.pm; then
+    echo "ESET availability in SweepViruses already enabled"
 else
     cp -f /root/Updater4MC/resources/73_Add_ESET_EFS_AV_support_SweepViruses.patch /opt/MailScanner/lib/MailScanner/
     cp SweepViruses.pm SweepViruses.pm_add_esetefs_av
@@ -267,6 +267,7 @@ else
     patch -i EximDiskStore.pm_long_ids.patch EximDiskStore.pm
     rm -f EximDiskStore.pm_long_ids.patch
     cd -
+fi
 if [ ! -e /opt/MailScanner/lib/esetsefs-wrapper ]; then
     cat <<EOF > /opt/MailScanner/lib/esetsefs-wrapper
 #!/bin/bash
