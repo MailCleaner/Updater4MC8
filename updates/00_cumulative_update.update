@@ -14,10 +14,10 @@ export PATH="${SRCDIR}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sb
 
 # This update is a summation of all previous updates. For fresh installations, all of these steps will have been completed already. This script is necessary only for older installations which may have been behind on updates.
 BD=$(lsblk | head -n 2 | tail -n 1 | awk '{ print $1 }')
-if [ -e ${BD}1 ]; then
-    INSTALLATION_DATE=$(tune2fs -l ${BD}1 | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
+if [ -e /dev/${BD}1 ]; then
+    INSTALLATION_DATE=$(tune2fs -l /dev/${BD}1 | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
 else
-    INSTALLATION_DATE=$(tune2fs -l ${BD} | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
+    INSTALLATION_DATE=$(tune2fs -l /dev/${BD} | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
 fi
 LATEST_UPDATE=$(ls $VARDIR/spool/updater/ | tail -n1)
 if [[ $INSTALLATION_DATE -gt 2024 ]]; then
