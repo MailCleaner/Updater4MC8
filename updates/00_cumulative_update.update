@@ -13,7 +13,12 @@ fi
 export PATH="${SRCDIR}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/mailcleaner/.pyenv/bin"
 
 # This update is a summation of all previous updates. For fresh installations, all of these steps will have been completed already. This script is necessary only for older installations which may have been behind on updates.
-INSTALLATION_DATE=$(tune2fs -l /dev/vda1 | grep 'Filesystem created:' | awk '{ print $7 }') 
+BD=$(lsblk | head -n 2 | tail -n 1 | awk '{ print $1 }'))
+if [ -e ${BD}1 ]; then
+    INSTALLATION_DATE=$(tune2fs -l ${BD}1 | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
+else
+    INSTALLATION_DATE=$(tune2fs -l ${BD} | grep 'Filesystem created:' | awk '{ print $7 }' 2>/dev/null)
+fi
 LATEST_UPDATE=$(ls $VARDIR/spool/updater/ | tail -n1)
 if [[ $INSTALLATION_DATE -gt 2024 ]]; then
     echo "Repeating updates unnecessary for new installations."
@@ -153,7 +158,7 @@ deb-src http://archive.debian.org/debian-security/ jessie/updates main contrib n
 EOF
 apt-get --allow-unauthenticated update 2>&1 >/dev/null
 apt-get --allow-unauthenticated -f install 2>&1 >/dev/null
-apt-get --allow-unauthenticated install -y apt-transport-https 2>&1 >/dev/null
+apt-get --allow-unauthenticated install -y apt-transport-https curl 2>&1 >/dev/null
 echo 'deb http://cdnmcpool.mailcleaner.net jessie main' > /etc/apt/sources.list.d/mailcleaner.list
 echo 'deb [arch=amd64] https://download.docker.com/linux/debian jessie stable' > /etc/apt/sources.list.d/mailcleaner.list
 curl -fsSL https://mailcleanerdl.alinto.net/downloads/mailcleaner.gpg --insecure | apt-key add - >/dev/null
@@ -459,7 +464,7 @@ fi
 cd $SRCDIR
 FILES="share/newsld/siteconfig/L_Dutch.cf share/newsld/siteconfig/K_Senders.cf share/newsld/siteconfig/L_Danish.cf share/newsld/siteconfig/L_Deutsch.cf share/newsld/siteconfig/L_English.cf share/newsld/siteconfig/L_French.cf share/newsld/siteconfig/L_Italian.cf share/newsld/siteconfig/L_Suedish.cf share/newsld/siteconfig/P_Products.cf share/newsld/siteconfig/X_Mailer.cf";
 for FILE in $FILES; do
-    if [[ -e $SRCDIR/$FILE]]; then
+    if [[ -e $SRCDIR/$FILE ]]; then
         echo "Removing $FILE from main git tree"
         git rm --force $SRCDIR/$FILE
         if [[ $? -ne 0 ]]; then
