@@ -175,9 +175,9 @@ apt-get update && sudo apt-get install --force-yes -y -o Dpkg::Options::="--forc
   cpanminus
 
 echo "Installing all Perl libraries, if missing"
-${SRCDIR}/install/install_perl_libs.sh
-/usr/bin/cpanm Math::Int128
-/usr/bin/cpanm IPC::Run
+${SRCDIR}/install/install_perl_libs.sh 2>&1 >/dev/null
+/usr/bin/cpanm Math::Int128 2>&1 >/dev/null
+/usr/bin/cpanm IPC::Run 2>&1 >/dev/null
 
 echo "Updating databases"
 ${SRCDIR}/etc/init.d/mysql_master start
