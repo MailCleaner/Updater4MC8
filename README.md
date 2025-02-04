@@ -17,7 +17,7 @@ Depending on the time your script is set to run and when you check the log, it i
 If you would like to run the update script manually, you can do so with:
 
 ```
-/roo/Updater4MC/updater4mc.sh
+/root/Updater4MC/updater4mc.sh
 ```
 
 ## Summary
