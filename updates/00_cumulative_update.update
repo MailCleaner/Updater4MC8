@@ -510,7 +510,7 @@ if ! grep notifempty /etc/logrotate.d/fail2ban > /dev/null; then
 fi
 
 echo "Installing MailCleaner Python library..."
-MC_LIB_VERSION=check_mclib_version()
+MC_LIB_VERSION=check_mclib_version
 if [[ "$MC_LIB_VERSION" < "1.1.5" ]]; then
     echo "Did not find MailCleaner Library"
     su - mailcleaner -c "pip install mailcleaner-library==1.1.5 --trusted-host repository.mailcleaner.net --index https://repository.mailcleaner.net/python/ --extra-index https://pypi.org/simple/"
