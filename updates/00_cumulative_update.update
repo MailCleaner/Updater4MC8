@@ -239,7 +239,7 @@ else
     patch -i MS_hide_script2.patch Message.pm
     rm -f MS_hide_script2.patch
 fi
-if grep -q 'InitEsetsEFSParser' /opt/MailScanner/lib/MailScanner/Message.pm; then
+if grep -q 'InitEsetsEFSParser' /opt/MailScanner/lib/MailScanner/SweepViruses.pm; then
     echo "ESET availability in SweepViruses already enabled"
 else
     cp -f /root/Updater4MC/resources/73_Add_ESET_EFS_AV_support_SweepViruses.patch /opt/MailScanner/lib/MailScanner/
@@ -248,7 +248,7 @@ else
     rm -f 73_Add_ESET_EFS_AV_support_SweepViruses.patch
 fi
 cd -
-if grep -q 'EximCommand' /opt/MailScanner/lib/MailScanner/Message.pm; then
+if grep -q 'EximCommand' /opt/MailScanner/lib/MailScanner/ConfigDefs.pl; then
     echo "Long ID support already enabled"
 else
     cp -f /root/Updater4MC/resources/MailScanner_long_ids.patch /opt/MailScanner/bin/
@@ -476,7 +476,7 @@ for FILE in $FILES; do
     fi
 done
 
-echo "Installing Pyenv..."
+echo "Checking Pyenv..."
 export PYENV_ROOT="/var/mailcleaner/.pyenv"
 export PYENV_VERSION=3.7.7
 if [[ -e $PYENV_ROOT ]]; then
@@ -510,7 +510,7 @@ if ! grep notifempty /etc/logrotate.d/fail2ban > /dev/null; then
 fi
 
 echo "Installing MailCleaner Python library..."
-MC_LIB_VERSION=$(check_mclib_version())
+MC_LIB_VERSION=check_mclib_version()
 if [[ "$MC_LIB_VERSION" < "1.1.5" ]]; then
     echo "Did not find MailCleaner Library"
     su - mailcleaner -c "pip install mailcleaner-library==1.1.5 --trusted-host repository.mailcleaner.net --index https://repository.mailcleaner.net/python/ --extra-index https://pypi.org/simple/"
