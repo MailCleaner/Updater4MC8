@@ -1,6 +1,6 @@
 # Updater4MC
 
-This is the update orchestration utility for [MailCleaner](https://github.com/MailCleaner/MailCleaner), the current release of [MailCleaner](https://mailcleaner.org).
+This is the update orchestration utility for the current release of [MailCleaner](https://github.com/MailCleaner/MailCleaner).
 
 ## Usage
 
