@@ -603,4 +603,27 @@ if grep -q 'SORBS' <<< `echo $SA`; then
     echo "UPDATE antispam SET sa_rbls = '$SA';" | $SRCDIR/bin/mc_mysql -m mc_config
 fi
 
+echo "Removing Depricated RBL for Manitu..."
+SMTP=$(echo 'SELECT rbls FROM mta_config WHERE stage = 1;' | $SRCDIR/bin/mc_mysql -m mc_config)
+SMTP=$(echo $SMTP | cut -d' ' -f 2-);
+if grep -q 'IXDNSBLMANITUNET' <<< `echo $SMTP`; then
+    echo "Removing IXDNSBLMANITUNET from SMTP RBLs"
+    SMTP=$(echo $SMTP | sed -r 's/(IXDNSBLMANITUNET | IXDNSBLMANITUNET|IXDNSBLMANITUNET)//')
+    echo "UPDATE mta_config SET rbls = '$SMTP' WHERE stage = 1;" | $SRCDIR/bin/mc_mysql -m mc_config
+fi
+PRERBL=$(echo 'SELECT lists FROM PreRBLs;' | $SRCDIR/bin/mc_mysql -m mc_config)
+PRERBL=$(echo $PRERBL | cut -d' ' -f 2-);
+if grep -q 'IXDNSBLMANITUNET' <<< `echo $PreRBLs`; then
+    echo "Removing IXDNSBLMANITUNET from PreRBLs"
+    PRERBL=$(echo $PRERBL | sed -r 's/(IXDNSBLMANITUNET | IXDNSBLMANITUNET|IXDNSBLMANITUNET)//')
+    echo "UPDATE PreRBLs SET lists = '$PRERBL';" | $SRCDIR/bin/mc_mysql -m mc_config
+fi
+SA=$(echo 'SELECT sa_rbls FROM antispam;' | $SRCDIR/bin/mc_mysql -m mc_config)
+SA=$(echo $SA | cut -d' ' -f 2-);
+if grep -q 'IXDNSBLMANITUNET' <<< `echo $SA`; then
+    echo "Removing IXDNSBLMANITUNET from SpamC"
+    SA=$(echo $SA | sed -r 's/(IXDNSBLMANITUNET | IXDNSBLMANITUNET|IXDNSBLMANITUNET)//')
+    echo "UPDATE antispam SET sa_rbls = '$SA';" | $SRCDIR/bin/mc_mysql -m mc_config
+fi
+
 set_version 2025 01 15 "Updater4MC8 Cummulative updates"
