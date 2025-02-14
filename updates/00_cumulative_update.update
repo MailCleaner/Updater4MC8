@@ -590,7 +590,7 @@ if grep -q 'SORBS' <<< `echo $SMTP`; then
 fi
 PRERBL=$(echo 'SELECT lists FROM PreRBLs;' | $SRCDIR/bin/mc_mysql -m mc_config)
 PRERBL=$(echo $PRERBL | cut -d' ' -f 2-);
-if grep -q 'SORBS' <<< `echo $PreRBLs`; then
+if grep -q 'SORBS' <<< `echo $PRERBL`; then
     echo "Removing SORBS from PreRBLs"
     PRERBL=$(echo $PRERBL | sed -r 's/(SORBS | SORBS|SORBS)//')
     echo "UPDATE PreRBLs SET lists = '$PRERBL';" | $SRCDIR/bin/mc_mysql -m mc_config
@@ -613,7 +613,7 @@ if grep -q 'IXDNSBLMANITUNET' <<< `echo $SMTP`; then
 fi
 PRERBL=$(echo 'SELECT lists FROM PreRBLs;' | $SRCDIR/bin/mc_mysql -m mc_config)
 PRERBL=$(echo $PRERBL | cut -d' ' -f 2-);
-if grep -q 'IXDNSBLMANITUNET' <<< `echo $PreRBLs`; then
+if grep -q 'IXDNSBLMANITUNET' <<< `echo $PRERBL`; then
     echo "Removing IXDNSBLMANITUNET from PreRBLs"
     PRERBL=$(echo $PRERBL | sed -r 's/(IXDNSBLMANITUNET | IXDNSBLMANITUNET|IXDNSBLMANITUNET)//')
     echo "UPDATE PreRBLs SET lists = '$PRERBL';" | $SRCDIR/bin/mc_mysql -m mc_config
